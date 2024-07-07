@@ -54,6 +54,16 @@ def main():
         page_start = st.number_input('Page start (1-indexed)', min_value=1, max_value=len(pdf_reader.pages), value=1)
         page_end = st.number_input('Page end (1-indexed)', min_value=page_start, max_value=len(pdf_reader.pages), value=len(pdf_reader.pages))
 
+        # summary_length = None
+        # if st.button('Brief Summary (3-5 sentences)'):
+        #     summary_length = 'brief'
+        # if st.button('Summary'):
+        #     summary_length = 'summary'
+        # if st.button('Detailed Summary'):
+        #     summary_length = 'detailed'
+        summary_length = st.selectbox('Select Summary Length', ['Brief Summary (3-5 sentences)', 'Summary', 'Detailed Summary'])
+
+
         if st.button('Generate Summary'):
 
             for page_num in range(page_start - 1, page_end):  # Adjust for 0-indexed pages
@@ -65,13 +75,24 @@ def main():
 
             knowledgeBase = process_text(text)
 
-            query2 = """Give a brief summary of the content of the document in 3 to 5 sentences.
+            query_brief = """Give a brief summary of the content of the document in 3 to 5 sentences.
             Focus on capturing the main ideas and key points discussed in the document. 
             Use your own words and ensure clarity and coherence in the summary."""
 
-            query = """Give a very detalied summary of the content of the document. Write as much as possible.
+            query_summary = """Give a summary of the content of the document.
             Focus on capturing the main ideas and key points discussed in the document. 
             Use your own words and ensure clarity and coherence in the summary."""
+
+            query_detailed = """Give a very detailed summary of the content of the document. Write as much as possible.
+            Focus on capturing the main ideas and key points discussed in the document. 
+            Use your own words and ensure clarity and coherence in the summary."""
+
+            if summary_length == 'Brief Summary (3-5 sentences)':
+                query = query_brief
+            elif summary_length == 'Summary':
+                query = query_summary
+            else:
+                query = query_detailed
 
             docs = knowledgeBase.similarity_search(query)
             llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest")
