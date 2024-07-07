@@ -1,0 +1,26 @@
+.main {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+.title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #8ACF00;
+    text-align: center;
+}
+.divider {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-top: 2px solid #ddd;
+}
+.file-uploader {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.element-container:has(#button-after) + div button {
+    background-color: transparent;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
