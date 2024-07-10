@@ -53,15 +53,21 @@ def main():
 
         st.markdown('<span id="input"></span>', unsafe_allow_html=True)
 
-        page_start = st.number_input('Page start (1-indexed)', min_value=1, max_value=len(pdf_reader.pages), value=1)
-        page_end = st.number_input('Page end (1-indexed)', min_value=page_start, max_value=len(pdf_reader.pages), value=len(pdf_reader.pages))
+        st.markdown('<p style="text-align:center;">Enter the range of pages you wish to summarize (default is all of the pages).</p>', unsafe_allow_html=True)
+        col1, col2 = st.columns(2)
+        with col1:
+            page_start = st.number_input('Page start (1-indexed)', min_value=1, max_value=len(pdf_reader.pages), value=1)
+        with col2:
+            page_end = st.number_input('Page end (1-indexed)', min_value=page_start, max_value=len(pdf_reader.pages), value=len(pdf_reader.pages))
+
         summary_length = st.selectbox('Select Summary Length', ['Brief Summary (1 paragraph)', 'Regular Summary (2-4 paragraphs)', 'Detailed Summary (1 page)'])
 
         st.markdown('<span id="button-after"></span>', unsafe_allow_html=True)
         gen_summary_clicked = st.button("Generate Summary!")
+        
         if gen_summary_clicked:
             with st.spinner("Generating summary..."):
-                for page_num in range(page_start - 1, page_end):  # Adjust for 0-indexed pages
+                for page_num in range(page_start - 1, page_end):
                     page = pdf_reader.pages[page_num]
                     text += page.extract_text()
 
