@@ -15,7 +15,6 @@
 }
 .file-uploader {
     margin-top: 20px;
-    margin-bottom: 20px;
 }
 .element-container:has(#button-after) + div button {
     background-color: transparent;
