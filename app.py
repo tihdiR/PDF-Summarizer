@@ -8,9 +8,11 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
+# Import css file.
 with open('style.css') as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+# Loads api key from key.env file.
 def load_api_key():
     dotenv_path = "key.env"
     load_dotenv(dotenv_path)
@@ -19,6 +21,8 @@ def load_api_key():
         raise ValueError(f"Unable to retrieve GOOGLE_API_KEY from {dotenv_path}")
     return api_key
 
+# Splits text into chunks and uses Google embeddings to vectorize the text.
+# Similiarity search is performed on the chunks and embeddings to produce a knowledge base.
 def process_text(text):
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=50000,
@@ -40,10 +44,12 @@ def main():
         st.error(str(err))
         return
 
+    # Initialize session states.
     if 'pdf_text' not in st.session_state:
         st.session_state['pdf_text'] = None
         st.session_state['knowledgeBase'] = None
 
+    # Checks if no document has been uploaded yet.
     if st.session_state['pdf_text'] is None:
         st.markdown('<div class="file-uploader">', unsafe_allow_html=True)
         pdf = st.file_uploader('Upload your PDF Document', type='pdf')
@@ -64,6 +70,7 @@ def main():
             st.markdown('<span id="button-after"></span>', unsafe_allow_html=True)
             doc_clicked = st.button("Process document")
 
+            # Processes document using the range of pages inputted.
             if doc_clicked:
                 with st.spinner("Processing..."):
                     for page_num in range(page_start - 1, page_end):
@@ -85,6 +92,7 @@ def main():
         st.markdown('<span id="button-after"></span>', unsafe_allow_html=True)
         gen_summary_clicked = st.button("Generate Summary!")
 
+        # Generates summary based on summary length provided and uses the respective prompt.
         if gen_summary_clicked:
             with st.spinner("Generating summary..."):
                 query_brief = """Give a brief summary of the content of the document in 3 to 5 sentences.
@@ -115,6 +123,7 @@ def main():
         user_query = st.text_input('Enter your question about the document:')
         ask_query_clicked = st.button("Ask Question")
 
+        # Uses a user query to ask about the document
         if ask_query_clicked and user_query:
             with st.spinner("Searching for answer..."):
                 user_query = "Answer the question: " + user_query + "using the information provided in the document. Give a detailed and comprehensive answer."
@@ -125,6 +134,7 @@ def main():
                 st.markdown('<h2>Answer:</h2>', unsafe_allow_html=True)
                 st.markdown(response, unsafe_allow_html=True)
 
+        # Option to upload a different document which resets the sessions states and reruns the program.
         if st.button("Upload a Different Document"):
             st.session_state['pdf_text'] = None
             st.session_state['knowledgeBase'] = None
