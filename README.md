@@ -43,10 +43,19 @@ streamlit run app.py
 ## Usage
 
 1. **Upload a PDF**: Click on "Upload your PDF Document" to upload a PDF file.
+   <img width="877" alt="Screen Shot 2024-07-31 at 4 42 08 PM" src="https://github.com/user-attachments/assets/0db39824-0277-4456-a37a-0189dcb1a4c3">
+
 2. **Select Page Range**: Choose the start and end pages you want to summarize.
+   <img width="785" alt="Screen Shot 2024-07-31 at 4 42 58 PM" src="https://github.com/user-attachments/assets/4f46263b-371f-43ec-9468-76f974dad264">
+
 3. **Process Document**: Click on "Process document" to extract and process the text from the selected pages.
+
 4. **Generate Summary**: After processing, choose the desired summary length and click "Generate Summary".
+   <img width="745" alt="Screen Shot 2024-07-31 at 4 43 31 PM" src="https://github.com/user-attachments/assets/599c0ae1-9574-499d-bc64-bddef26db2e0">
+
 5. **Ask Questions**: Input a question related to the document's content and click "Ask Question" to get an answer.
+   <img width="749" alt="Screen Shot 2024-07-31 at 4 44 30 PM" src="https://github.com/user-attachments/assets/cf1caa56-92dd-4197-b158-618d33fa6499">
+
 6. **Upload a Different Document**: Use the "Upload a Different Document" button to process a new document.
 
 ## Dependencies
